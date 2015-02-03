@@ -1,0 +1,23 @@
+{
+  "name": "file-lister",
+  "version": "1.0.0",
+  "description": "Node module to list files in a folder.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jfmengels/node-file-lister.git"
+  },
+  "keywords": [
+    "file",
+    "list"
+  ],
+  "author": "Jeroen Engels <jfm.engels@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jfmengels/node-file-lister/issues"
+  },
+  "homepage": "https://github.com/jfmengels/node-file-lister"
+}
