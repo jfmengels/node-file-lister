@@ -1,19 +1,11 @@
 var fs = require("fs");
 var path = require("path");
-// var extend = require("node.extend");
-// TODO remove tmp extend
-var extend = function(config, defaultConfig) {
-    for (var i in defaultConfig) {
-        if (config[i] === undefined) {
-            config[i] = defaultConfig[i];
-        }
-    }
-    return config;
-};
+var extend = require("extend");
 
 function concatenator(callsRemaining, cb) {
-    var items = [];
-    var returned = false;
+    var items = [],
+        returned = false;
+
     return function(error, newItems) {
         if (error) {
             if (!returned) {
@@ -31,7 +23,7 @@ function concatenator(callsRemaining, cb) {
     };
 }
 
-function listFiles(dir, settings, depth, cb) {
+function listFiles(dir, options, depth, cb) {
     fs.readdir(dir, function(error, list) {
         if (error) {
             return cb(error);
@@ -49,10 +41,10 @@ function listFiles(dir, settings, depth, cb) {
                     return callback(error);
                 }
                 if (stat && stat.isDirectory()) {
-                    if (settings.maxDepth === depth) {
+                    if (options.maxDepth === depth) {
                         return callback();
                     }
-                    listFiles(file, settings, depth + 1, callback);
+                    listFiles(file, options, depth + 1, callback);
                 } else if (stat && stat.isFile()) {
                     callback(null, [file]);
                 }
@@ -61,26 +53,22 @@ function listFiles(dir, settings, depth, cb) {
     });
 }
 
-var lister = {};
-
-var defaultSettings = {
+var defaultOptions = {
     maxDepth: -1
 };
 
-lister.listFiles = function(dirs, settings, cb) {
+module.exports = function(dirs, options, cb) {
     if (!cb) {
-        cb = settings;
-        settings = {};
+        cb = options;
+        options = {};
     }
     if (!Array.isArray(dirs)) {
         dirs = [dirs];
     }
-    settings = extend(settings, defaultSettings);
+    options = extend(options, defaultOptions);
 
     var concat = concatenator(dirs.length, cb);
     dirs.forEach(function(dir) {
-        listFiles(dir, settings, 0, concat);
+        listFiles(dir, options, 0, concat);
     });
 };
-
-module.exports = lister;

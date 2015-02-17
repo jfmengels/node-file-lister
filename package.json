@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/jfmengels/node-file-lister/issues"
   },
-  "homepage": "https://github.com/jfmengels/node-file-lister"
+  "homepage": "https://github.com/jfmengels/node-file-lister",
+  "dependencies": {
+    "extend": "^2.0.0"
+  }
 }
